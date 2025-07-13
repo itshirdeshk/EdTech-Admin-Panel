@@ -96,21 +96,47 @@ const AllResources = () => {
     };
     useEffect(() => {
         fetchData();
-    }, [fetchData]);
-
-    const handleDownload = async (resource) => {
+    }, [fetchData]);    const handleDownload = async (resource) => {
         try {
             const response = await fetch(resource.url);
             const blob = await response.blob();
-            // Try to get extension from typeOfFile or fallback to blob type
+            
+            // Map MIME types to file extensions
+            const getFileExtension = (mimeType) => {
+                const mimeToExtMap = {
+                    'application/pdf': '.pdf',
+                    'application/msword': '.doc',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+                    'application/vnd.ms-excel': '.xls',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+                    'application/vnd.ms-powerpoint': '.ppt',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx',
+                    'text/plain': '.txt',
+                    'text/csv': '.csv',
+                    'image/jpeg': '.jpg',
+                    'image/png': '.png',
+                    'image/gif': '.gif',
+                    'image/webp': '.webp',
+                    'application/zip': '.zip',
+                    'application/x-rar-compressed': '.rar'
+                };
+                
+                return mimeToExtMap[mimeType.toLowerCase()] || '';
+            };
+
             let ext = '';
             if (resource.typeOfFile) {
-                ext = '.' + resource.typeOfFile.toLowerCase().replace('application/', '').replace('image/', '').replace('vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx').replace('vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx').replace('msword', 'doc').replace('pdf', 'pdf');
+                ext = getFileExtension(resource.typeOfFile);
+                // If no mapping found, try to extract from the mime type
+                if (!ext && resource.typeOfFile.includes('/')) {
+                    ext = '.' + resource.typeOfFile.split('/').pop();
+                }
             } else if (blob.type) {
-                ext = '.' + blob.type.split('/').pop();
+                ext = getFileExtension(blob.type) || '.' + blob.type.split('/').pop();
             }
+
             let filename = resource.title ? resource.title.replace(/[^a-zA-Z0-9-_]/g, '_') : 'downloaded_file';
-            if (!filename.endsWith(ext)) filename += ext;
+            if (!filename.endsWith(ext) && ext) filename += ext;
             saveAs(blob, filename);
         } catch (err) {
             alert('Failed to download file.');
