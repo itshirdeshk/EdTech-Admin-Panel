@@ -101,8 +101,13 @@ const AllResources = () => {
             const response = await fetch(resource.url);
             const blob = await response.blob();
             
-            // Map MIME types to file extensions
-            const getFileExtension = (mimeType) => {
+            // Map both MIME types and simple file types to extensions
+            const getFileExtension = (typeString) => {
+                if (!typeString) return '';
+                
+                const type = typeString.toLowerCase();
+                
+                // Handle MIME types
                 const mimeToExtMap = {
                     'application/pdf': '.pdf',
                     'application/msword': '.doc',
@@ -121,25 +126,65 @@ const AllResources = () => {
                     'application/x-rar-compressed': '.rar'
                 };
                 
-                return mimeToExtMap[mimeType.toLowerCase()] || '';
+                // Handle simple file type strings
+                const simpleTypeMap = {
+                    'pdf': '.pdf',
+                    'doc': '.doc',
+                    'docx': '.docx',
+                    'xls': '.xls',
+                    'xlsx': '.xlsx',
+                    'ppt': '.ppt',
+                    'pptx': '.pptx',
+                    'txt': '.txt',
+                    'csv': '.csv',
+                    'jpg': '.jpg',
+                    'jpeg': '.jpg',
+                    'png': '.png',
+                    'gif': '.gif',
+                    'webp': '.webp',
+                    'zip': '.zip',
+                    'rar': '.rar'
+                };
+                
+                // First try MIME type mapping
+                if (mimeToExtMap[type]) {
+                    return mimeToExtMap[type];
+                }
+                
+                // Then try simple type mapping
+                if (simpleTypeMap[type]) {
+                    return simpleTypeMap[type];
+                }
+                
+                // If it's a MIME type, extract the extension
+                if (type.includes('/')) {
+                    return '.' + type.split('/').pop();
+                }
+                
+                // If it looks like an extension already, use it
+                if (type.length <= 5 && !type.includes(' ')) {
+                    return type.startsWith('.') ? type : '.' + type;
+                }
+                
+                return '';
             };
 
             let ext = '';
             if (resource.typeOfFile) {
                 ext = getFileExtension(resource.typeOfFile);
-                // If no mapping found, try to extract from the mime type
-                if (!ext && resource.typeOfFile.includes('/')) {
-                    ext = '.' + resource.typeOfFile.split('/').pop();
-                }
             } else if (blob.type) {
-                ext = getFileExtension(blob.type) || '.' + blob.type.split('/').pop();
+                ext = getFileExtension(blob.type);
             }
 
             let filename = resource.title ? resource.title.replace(/[^a-zA-Z0-9-_]/g, '_') : 'downloaded_file';
-            if (!filename.endsWith(ext) && ext) filename += ext;
+            if (ext && !filename.endsWith(ext)) {
+                filename += ext;
+            }
+            
             saveAs(blob, filename);
         } catch (err) {
             alert('Failed to download file.');
+            console.error('Download error:', err);
         }
     };
 
