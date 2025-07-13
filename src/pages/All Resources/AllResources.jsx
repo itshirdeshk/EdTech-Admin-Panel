@@ -96,18 +96,14 @@ const AllResources = () => {
     };
     useEffect(() => {
         fetchData();
-    }, [fetchData]);    const handleDownload = async (resource) => {
+    }, [fetchData]);    
+      const handleDownload = async (resource) => {
         try {
             const response = await fetch(resource.url);
             const blob = await response.blob();
             
-            // Map both MIME types and simple file types to extensions
-            const getFileExtension = (typeString) => {
-                if (!typeString) return '';
-                
-                const type = typeString.toLowerCase();
-                
-                // Handle MIME types
+            // Function to get file extension from MIME type
+            const getExtensionFromMimeType = (mimeType) => {
                 const mimeToExtMap = {
                     'application/pdf': '.pdf',
                     'application/msword': '.doc',
@@ -119,68 +115,108 @@ const AllResources = () => {
                     'text/plain': '.txt',
                     'text/csv': '.csv',
                     'image/jpeg': '.jpg',
+                    'image/jpg': '.jpg',
                     'image/png': '.png',
                     'image/gif': '.gif',
                     'image/webp': '.webp',
                     'application/zip': '.zip',
-                    'application/x-rar-compressed': '.rar'
+                    'application/x-rar-compressed': '.rar',
+                    'application/vnd.rar': '.rar',
+                    'application/x-zip-compressed': '.zip'
                 };
                 
-                // Handle simple file type strings
-                const simpleTypeMap = {
-                    'pdf': '.pdf',
-                    'doc': '.doc',
-                    'docx': '.docx',
-                    'xls': '.xls',
-                    'xlsx': '.xlsx',
-                    'ppt': '.ppt',
-                    'pptx': '.pptx',
-                    'txt': '.txt',
-                    'csv': '.csv',
-                    'jpg': '.jpg',
-                    'jpeg': '.jpg',
-                    'png': '.png',
-                    'gif': '.gif',
-                    'webp': '.webp',
-                    'zip': '.zip',
-                    'rar': '.rar'
-                };
-                
-                // First try MIME type mapping
-                if (mimeToExtMap[type]) {
-                    return mimeToExtMap[type];
+                return mimeToExtMap[mimeType.toLowerCase()] || '';
+            };
+
+            // Function to get extension from URL
+            const getExtensionFromUrl = (url) => {
+                try {
+                    // Remove query parameters and get the pathname
+                    const pathname = new URL(url).pathname;
+                    const lastDot = pathname.lastIndexOf('.');
+                    if (lastDot > 0 && lastDot < pathname.length - 1) {
+                        const ext = pathname.substring(lastDot).toLowerCase();
+                        // Validate that it's a reasonable file extension (2-5 characters)
+                        if (ext.length >= 2 && ext.length <= 5 && /^\.[\w]+$/.test(ext)) {
+                            return ext;
+                        }
+                    }
+                } catch (error) {
+                    console.log('Error parsing URL:', error);
                 }
-                
-                // Then try simple type mapping
-                if (simpleTypeMap[type]) {
-                    return simpleTypeMap[type];
-                }
-                
-                // If it's a MIME type, extract the extension
-                if (type.includes('/')) {
-                    return '.' + type.split('/').pop();
-                }
-                
-                // If it looks like an extension already, use it
-                if (type.length <= 5 && !type.includes(' ')) {
-                    return type.startsWith('.') ? type : '.' + type;
-                }
-                
                 return '';
             };
 
-            let ext = '';
-            if (resource.typeOfFile) {
-                ext = getFileExtension(resource.typeOfFile);
-            } else if (blob.type) {
-                ext = getFileExtension(blob.type);
-            }
+            // Function to detect file type from file signature (magic numbers)
+            const detectFileTypeFromBlob = async (blob) => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const arr = new Uint8Array(e.target.result);
+                        const header = arr.slice(0, 4);
+                        
+                        // Convert to hex string
+                        const hex = Array.from(header).map(b => b.toString(16).padStart(2, '0')).join('');
+                        
+                        // File signatures (magic numbers)
+                        const signatures = {
+                            '25504446': '.pdf',          // PDF
+                            'd0cf11e0': '.doc',          // DOC (old format)
+                            '504b0304': '.docx',         // DOCX/XLSX/PPTX (ZIP-based)
+                            '504b0506': '.docx',         // DOCX/XLSX/PPTX (empty ZIP)
+                            '504b0708': '.docx',         // DOCX/XLSX/PPTX (spanned ZIP)
+                            'ffd8ffe0': '.jpg',          // JPEG
+                            'ffd8ffe1': '.jpg',          // JPEG
+                            'ffd8ffe2': '.jpg',          // JPEG
+                            '89504e47': '.png',          // PNG
+                            '47494638': '.gif',          // GIF
+                            '52494646': '.webp'          // WEBP (starts with RIFF)
+                        };
+                        
+                        const fileType = signatures[hex.substring(0, 8)] || signatures[hex.substring(0, 6)] || '';
+                        resolve(fileType);
+                    };
+                    reader.readAsArrayBuffer(blob.slice(0, 4));
+                });
+            };
 
-            let filename = resource.title ? resource.title.replace(/[^a-zA-Z0-9-_]/g, '_') : 'downloaded_file';
-            if (ext && !filename.endsWith(ext)) {
-                filename += ext;
+            let ext = '';
+            
+            // Priority 1: Try to get extension from blob MIME type
+            if (blob.type && blob.type !== 'application/octet-stream') {
+                ext = getExtensionFromMimeType(blob.type);
+                console.log('Extension from blob MIME type:', ext, 'MIME:', blob.type);
             }
             
+            // Priority 2: If no extension from MIME, try URL
+            if (!ext) {
+                ext = getExtensionFromUrl(resource.url);
+                console.log('Extension from URL:', ext);
+            }
+            
+            // Priority 3: If still no extension, try file signature detection
+            if (!ext) {
+                ext = await detectFileTypeFromBlob(blob);
+                console.log('Extension from file signature:', ext);
+            }
+            
+            // Priority 4: Get from Content-Type header if available
+            if (!ext && response.headers.get('content-type')) {
+                const contentType = response.headers.get('content-type');
+                ext = getExtensionFromMimeType(contentType);
+                console.log('Extension from Content-Type header:', ext, 'Content-Type:', contentType);
+            }
+
+            let filename = resource.title ? resource.title.replace(/[^a-zA-Z0-9-_\s]/g, '_') : 'downloaded_file';
+            
+            if (ext && !filename.toLowerCase().endsWith(ext.toLowerCase())) {
+                filename += ext;
+            } else if (!ext) {
+                // If we still can't determine the type, use a generic extension
+                filename += '.file';
+            }
+            
+            console.log('Final filename:', filename);
             saveAs(blob, filename);
         } catch (err) {
             alert('Failed to download file.');
