@@ -269,7 +269,6 @@ const AllResources = () => {
                                     <th>Sub Exam</th>
                                     <th>Description</th>
                                     <th>Size (MB)</th>
-                                    <th>Type</th>
                                     <th>Download</th>
                                     <th>Action</th>
                                 </tr>
@@ -296,7 +295,6 @@ const AllResources = () => {
                                             <td>{i?.subExam?.name}</td>
                                             <td>{i?.description}</td>
                                             <td>{i?.size} MB</td>
-                                            <td>{i?.typeOfFile}</td>
                                             <td>
                                                 <button onClick={() => handleDownload(i)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                                                     <FaDownload />

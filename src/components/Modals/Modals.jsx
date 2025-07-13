@@ -73,7 +73,7 @@ const AdminDetailsModal = (props) => {
                     <div className="referralusermodal-main">
                         <div className="subadmindetails-image-img">
                             <div className="referralusermodal-image">
-                                <img src={data?.user?.image || img1} alt="no image" />
+                                <img src={data?.user?.image || img1} alt="" />
                             </div>
                             <div className="subadmindetails-image-content">
                                 <h6>Permissions</h6>
@@ -1610,7 +1610,6 @@ const AddResource = (props) => {
         formData.append("description", description);
         formData.append("exam", examid);
         formData.append("subExam", subExamid);
-        formData.append("typeOfFile", 'PDF');
         formData.append("resource", resource);
 
         await postApi(endPoints.addResource, formData, {
