@@ -1,0 +1,229 @@
+.login {
+    padding: 1rem;
+}
+
+
+.login1 {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.login1 button {
+    width: auto;
+    height: 48px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid #FF5534;
+    outline: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FF5534;
+    margin: 0;
+    cursor: pointer;
+}
+
+
+.login2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login3{
+    margin-top: 2rem;
+}
+
+
+.login4 {
+    text-align: center;
+}
+
+.login4 h1 {
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 60px;
+    color: #313131;
+    margin: 0;
+    text-align: center;
+}
+
+
+.login4 p {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    color: #313131;
+    margin: 0;
+    opacity: 0.75;
+    text-align: center;
+}
+
+.login-form {
+    margin-top: 2rem;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+    width: 512px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    width: 100%;
+    height: 100%;
+    padding-left: 16px;
+    font-size: 16px;
+    border: 1px solid #79747E;
+    border-radius: 4px;
+    outline: none;
+    position: relative;
+}
+
+.input-container input:focus {
+    border-color: #FF5534;
+    box-shadow: 0 0 5px rgba(240, 84, 35, 0.5);
+    outline: none;
+}
+
+.input-container label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #545454;
+    background: #fff;
+    transition: 0.3s ease-in-out;
+    padding: 0 5px;
+    pointer-events: none;
+}
+
+.input-container input:focus+label,
+.input-container input:not(:placeholder-shown)+label {
+    top: -10px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #545454;
+}
+
+
+.logininputseye{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.options label {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 16px;
+    color: #313131;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.options .forgot-password {
+    color: #0023D3;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.options .forgot-password:hover {
+    text-decoration: underline;
+}
+
+
+.login6{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login6 img{
+    width: 50px;
+    height: 50px;
+}
+
+.login6 button {
+    width: 512px;
+    height: 48px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 4px;
+    background: #FF5534;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #F3F3F3;
+    margin: 0;
+    cursor: pointer;
+}
+
+.login6 button:hover{
+    background-color: #C2451D;
+    transform: scale(0.98);
+}
+
+
+.login7{
+    text-align: center;
+    margin-top: 0.6rem;
+}
+
+.login7 p{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 1);
+    margin: 0;
+}
+.login7 span{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #FF5534;
+    margin: 0;
+    cursor: pointer;
+}
+
+.login8{
+    text-align: left;
+    margin-bottom: 0.3rem;
+}
+
+.login8 p{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 1);
+    margin: 0;
+}
+.login8 span{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #FF5534;
+    margin: 0;
+    cursor: pointer;
+}

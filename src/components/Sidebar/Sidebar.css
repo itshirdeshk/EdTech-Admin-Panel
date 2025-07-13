@@ -1,0 +1,222 @@
+.sidebarcontainer {
+    width: auto;
+    max-width: 280px;
+    height: auto;
+    background: #FFFFFF;
+    border-right: 1px solid #0000004D;
+    border-bottom: 1px solid #0000004D;
+}
+
+
+
+.sidelogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #0000004D;
+    height: 81px;
+}
+
+
+.sidelogo1 {
+    width: auto;
+    height: 54.37px;
+    border-radius: 2.05px;
+    background: #FF5534;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.sidelogo1 h1 {
+    font-family: "Mulish", sans-serif;
+    font-weight: 900;
+    font-size: 24.62px;
+    line-height: 30.9px;
+    letter-spacing: -0.0em;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+
+
+.sideitems {
+    /* padding: 1rem; */
+    padding: 0;
+}
+
+
+
+
+.sideitemactive {
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 12px 34px 12px 34px;
+    text-decoration: none;
+}
+
+.sideitemactive svg {
+    color: #FF5534;
+    font-size: 20px;
+}
+
+.sideitemactive p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FF5534;
+    margin: 0
+}
+
+.sideitem55 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* padding: 12px 34px; */
+}
+
+.sideitem55 p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0;
+}
+
+.sideitem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding: 12px 34px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.sideitem svg {
+    color: #000000;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.sideitem p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0;
+}
+
+
+
+.sideitem:hover svg,
+.sideitem:hover p {
+    color: #FF5534;
+}
+
+.sideitems span {
+    margin-left: auto;
+    color: #000000;
+}
+
+.subitems {
+    border-radius: 4px;
+    border: 1px solid #0000001A;
+    max-width: 260px;
+    margin: auto;
+}
+
+.sidesubitem {
+    width: 100%;
+    padding: 12px 26px 12px 26px;
+    border: 1px solid #0000001A;
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: start;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.sidesubitem:hover {
+    background: #FF553433;
+}
+
+
+.sidesubitem p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0;
+}
+
+.sidesubitem svg {
+    color: #000000;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+
+.sidesubitemactive {
+    padding: 12px 26px 12px 26px;
+    width: 100%;
+    border-bottom: 1px solid #0000001A;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding: 12px 34px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    background: #FF553433;
+}
+
+.sidesubitemactive svg {
+    color: #000000;
+    font-size: 20px;
+}
+
+.sidesubitemactive p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin: 0
+}
+
+
+
+
+.sidelogoutbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+
+.sidelogoutbtn button {
+    width: 176.61px;
+    height: 36.74px;
+    border-radius: 7.08px;
+    background-color: #FFFFFF;
+    font-weight: 700;
+    font-size: 14.13px;
+    line-height: 29.34px;
+    letter-spacing: -0.02em;
+    color: #000000;
+    margin: 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
