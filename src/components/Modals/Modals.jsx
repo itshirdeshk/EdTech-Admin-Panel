@@ -977,7 +977,6 @@ const AddTests = (props) => {
             setTitle(data?.title || "");
             setMockTestId(data?.mockTestId || '');
             setDuration(data?.duration || null);
-            setTotalMarks(data?.totalMarks || null);
             setIsFree(data?.isFree || null);
         } else if (!edit) {
             resetForm();
@@ -988,7 +987,6 @@ const AddTests = (props) => {
         setTitle("");
         setMockTestId(null);
         setDuration(null);
-        setTotalMarks(null);
         setIsFree(null);
     };
 
@@ -1021,7 +1019,6 @@ const AddTests = (props) => {
         const payload = {
             title: title,
             duration: duration,
-            totalMarks: totalMarks,
             isFree: isFree,
             mockTestId: mocktestId
         }
@@ -1074,7 +1071,7 @@ const AddTests = (props) => {
                                 onChange={(e) => setDuration(e.target.value)}
                             />
                         </div>
-                        {edit && <div className="addcategory-container">
+                        {/* {edit && <div className="addcategory-container">
                             <label htmlFor="">Total Marks</label>
                             <input
                                 type="number"
@@ -1082,7 +1079,7 @@ const AddTests = (props) => {
                                 value={totalMarks}
                                 onChange={(e) => setTotalMarks(e.target.value)}
                             />
-                        </div>}
+                        </div>} */}
                         <div className="addcategory-container">
                             <label htmlFor="">Is Free</label>
                             <select
