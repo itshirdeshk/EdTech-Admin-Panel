@@ -994,7 +994,7 @@ const AddTests = (props) => {
 
 
     const handleSubmit = async () => {
-        if (!title || !mocktestId || !duration || !totalMarks || !isFree) {
+        if (!title || !mocktestId || !duration || !isFree) {
             toast.error("Please provide all the fields!");
             return;
         }
