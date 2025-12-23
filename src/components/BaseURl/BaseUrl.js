@@ -1,4 +1,4 @@
-export const BaseUrl = "https://testify-server-production-5d4a.up.railway.app/api/";
+export const BaseUrl = "https://testify-server-production-d2e4.up.railway.app/api/";
 // export const BaseUrl = "https://testify-server-tau.vercel.app/api/";
 
 export const getAuthHeaders = () => {
