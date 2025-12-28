@@ -325,7 +325,7 @@ const AddSubExams = (props) => {
     const id = data?._id;
     const [name, setName] = useState(data?.name || '');
     const [description, setDescription] = useState(data?.description || '');
-    const [examid, setExamId] = useState(data?.exam || '');
+    const [examid, setExamId] = useState(data?.exam?._id || data?.exam || '');
     const [imagePreview, setImagePreview] = useState(null);
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -365,7 +365,7 @@ const AddSubExams = (props) => {
         if (edit && data) {
             setName(data?.name || "");
             setDescription(data?.description || null);
-            setExamId(data?.exam || null);
+            setExamId(data?.exam?._id || data?.exam || null);
             setImage(null);
             setImagePreview(data?.image || null);
         } else if (!edit) {
@@ -941,7 +941,7 @@ const AddTests = (props) => {
     const { data, edit, fetchdata, onHide } = props;
     const id = data?._id;
     const [title, setTitle] = useState(data?.title || '');
-    const [mocktestId, setMockTestId] = useState(data?.mockTestId || '');
+    const [mocktestId, setMockTestId] = useState(data?.mockTest?._id || data?.mockTestId || '');
     const [duration, setDuration] = useState(data?.duration || null);
     const [totalMarks, setTotalMarks] = useState(data?.totalMarks || null);
     const [isFree, setIsFree] = useState(data?.isFree || null);
@@ -975,7 +975,7 @@ const AddTests = (props) => {
     useEffect(() => {
         if (edit && data) {
             setTitle(data?.title || "");
-            setMockTestId(data?.mockTestId || '');
+            setMockTestId(data?.mockTest?._id || data?.mockTestId || '');
             setDuration(data?.duration || null);
             setIsFree(data?.isFree || null);
         } else if (!edit) {
