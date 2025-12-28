@@ -109,7 +109,7 @@ const endPoints = {
     deleteMockTests: (id) =>
         `admin/deleteMockTestById/${id}`,
     deleteTests: (id) =>
-        `admin/deleteMockTestById/${id}`,
+        `admin/deleteTestById/${id}`,
     deleteprivacypolicy: (id) =>
         `admin/deletePrivacyPolicyById/${id}`,
     deleteAboutUs: (id) =>

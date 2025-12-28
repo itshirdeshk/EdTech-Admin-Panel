@@ -57,7 +57,7 @@ const AllSubExams = () => {
     }, [Data]);
 
     const handleDelete = async (categoryId) => {
-        if (!selectedItem) return;
+        if (!categoryId) return;
         await deleteApi(endPoints.deletesubExam(categoryId), {
             setLoading,
             successMsg: 'Data deleted successfully!',

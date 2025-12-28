@@ -17,8 +17,6 @@ import { formatDate } from '../../utils/utils';
 import { IoMdEye } from "react-icons/io";
 import { toast } from 'react-toastify';
 
-
-
 const UsersLists = () => {
     const [userData, setUserData] = useState([]);
     const [filtersExams, setFilterExam] = useState([]);
@@ -37,7 +35,6 @@ const UsersLists = () => {
     const [showBlockedOnly, setShowBlockedOnly] = useState(false);
 
     const navigate = useNavigate()
-
 
     const fetchData = useCallback(async () => {
         setUserData([])
@@ -58,8 +55,6 @@ const UsersLists = () => {
         )
     }, [pagination.page, pagination.limit, searchQuery, selectedFilter, showPremiumOnly, showBlockedOnly]);
 
-
-
     const fetchExamData = useCallback(async () => {
         setFilterExam([])
         await getApi(endPoints.getAllExams(1, 50), {
@@ -68,10 +63,6 @@ const UsersLists = () => {
             errorMsg: "Failed to fetch data!",
         })
     }, [])
-
-
-
-
 
     useEffect(() => {
         setPagination((prevPagination) => ({
@@ -91,10 +82,6 @@ const UsersLists = () => {
         });
     };
 
-
-
-
-
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearch(value);
@@ -110,7 +97,6 @@ const UsersLists = () => {
         setPagination((prev) => ({ ...prev, page: 1 }));
     };
 
-
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -118,10 +104,6 @@ const UsersLists = () => {
     useEffect(() => {
         fetchExamData();
     }, [fetchExamData]);
-
-
-
-
 
     return (
         <>

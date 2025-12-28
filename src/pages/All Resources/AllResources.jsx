@@ -57,7 +57,7 @@ const AllResources = () => {
 
 
     const handleDelete = async (categoryId) => {
-        if (!selectedItem) return;
+        if (!categoryId) return;
         await deleteApi(endPoints.deleteResources(categoryId), {
             setLoading,
             successMsg: 'Data deleted successfully!',

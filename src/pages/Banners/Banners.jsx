@@ -30,10 +30,7 @@ const Banners = () => {
     useEffect(() => {
         fetchData();
     }, [fetchData]);
-
-
-
-
+    
     const handleDelete = async (Id) => {
         await deleteApi(endPoints.deletebanner(Id), {
             successMsg: "Banner deleted successfully!",

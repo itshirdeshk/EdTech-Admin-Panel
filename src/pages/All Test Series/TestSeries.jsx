@@ -56,7 +56,7 @@ const TestSeries = () => {
 
 
     const handleDelete = async (categoryId) => {
-        if (!selectedItem) return;
+        if (!categoryId) return;
         await deleteApi(endPoints.deleteTestSeries(categoryId), {
             setLoading,
             successMsg: 'Data deleted successfully!',

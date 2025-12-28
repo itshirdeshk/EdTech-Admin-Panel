@@ -59,7 +59,7 @@ const Allquestions = () => {
 
 
     const handleDelete = async (categoryId) => {
-        if (!selectedItem) return;
+        if (!categoryId) return;
         await deleteApi(endPoints.deleteQuestion(categoryId), {
             setLoading,
             successMsg: 'Data deleted successfully!',
