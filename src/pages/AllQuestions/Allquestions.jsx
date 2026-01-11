@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import HOC from '../../components/HOC/HOC'
 import { AddQuestion, ViewDescription } from '../../components/Modals/Modals';
 
-import { deleteApi, getApi } from '../../Repository/Api';
+import { deleteApi, getApi, postApi } from '../../Repository/Api';
 import endPoints from '../../Repository/apiConfig';
 import { IoSearch } from "react-icons/io5";
 
@@ -29,6 +29,9 @@ const Allquestions = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [search, setSearch] = useState('')
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
+    const [testList, setTestList] = useState([]);
+    const [selectedTest, setSelectedTest] = useState("");
     const [pagination, setPagination] = useState({
         limit: 10,
         totalPages: 1,
@@ -41,12 +44,20 @@ const Allquestions = () => {
 
     const fetchData = useCallback(async () => {
         setData([])
-        await getApi(endPoints.getallQuestions(pagination.page, pagination.limit, searchQuery), {
+        await getApi(endPoints.getallQuestions(pagination.page, pagination.limit, searchQuery, selectedTest), {
             setResponse: setData,
             setLoading: setLoading,
             errorMsg: "Failed to fetch data!",
         })
-    }, [pagination.page, pagination.limit, searchQuery])
+    }, [pagination.page, pagination.limit, searchQuery, selectedTest])
+
+    const fetchTestList = useCallback(async () => {
+        await getApi(endPoints.getAllTests(1, 1000, ""), {
+            setResponse: setTestList,
+            setLoading: () => {},
+            errorMsg: "Failed to fetch tests!",
+        })
+    }, [])
 
     useEffect(() => {
         setPagination((prevPagination) => ({
@@ -66,6 +77,46 @@ const Allquestions = () => {
             errorMsg: 'Failed to delete data!',
         });
         fetchData();
+    };
+
+    const handleBulkDelete = async () => {
+        if (selectedQuestions.length === 0) {
+            alert("Please select at least one question to delete");
+            return;
+        }
+        
+        if (!window.confirm(`Are you sure you want to delete ${selectedQuestions.length} question(s)?`)) {
+            return;
+        }
+
+        await postApi(endPoints.deleteBulkQuestions, 
+            { questionIds: selectedQuestions },
+            {
+                setLoading,
+                successMsg: 'Questions deleted successfully!',
+                errorMsg: 'Failed to delete questions!',
+            }
+        );
+        setSelectedQuestions([]);
+        fetchData();
+    };
+
+    const handleSelectQuestion = (questionId) => {
+        setSelectedQuestions(prev => {
+            if (prev.includes(questionId)) {
+                return prev.filter(id => id !== questionId);
+            } else {
+                return [...prev, questionId];
+            }
+        });
+    };
+
+    const handleSelectAll = () => {
+        if (selectedQuestions.length === Data?.questions?.length) {
+            setSelectedQuestions([]);
+        } else {
+            setSelectedQuestions(Data?.questions?.map(q => q._id));
+        }
     };
 
     // Modal Openers
@@ -105,6 +156,10 @@ const Allquestions = () => {
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
+    useEffect(() => {
+        fetchTestList();
+    }, [fetchTestList]);
 
     const openDescriptionModal = (data) => {
         setSelectedItem(data);
@@ -153,8 +208,32 @@ const Allquestions = () => {
                                 Search
                             </button>
                         </div>
+                        <div style={{ marginLeft: '10px' }}>
+                            <select 
+                                className="form-select" 
+                                value={selectedTest} 
+                                onChange={(e) => {
+                                    setSelectedTest(e.target.value);
+                                    setPagination((prev) => ({ ...prev, page: 1 }));
+                                    setSelectedQuestions([]);
+                                }}
+                                style={{ padding: '8px 12px', borderRadius: '5px', border: '1px solid #ccc' }}
+                            >
+                                <option value="">All Tests</option>
+                                {testList?.tests?.map((test) => (
+                                    <option key={test._id} value={test._id}>
+                                        {test.title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                     <div className='userlist5'>
+                        {selectedQuestions.length > 0 && (
+                            <button onClick={handleBulkDelete} style={{ marginRight: '10px', backgroundColor: '#dc3545' }}>
+                                Delete Selected ({selectedQuestions.length})
+                            </button>
+                        )}
                         <button onClick={openAddModal}>Add</button>
                     </div>
                 </div>
@@ -163,6 +242,13 @@ const Allquestions = () => {
                         <table>
                             <thead>
                                 <tr>
+                                    <th>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedQuestions.length === Data?.questions?.length && Data?.questions?.length > 0}
+                                            onChange={handleSelectAll}
+                                        />
+                                    </th>
                                     <th>S.No</th>
                                     <th>Question</th>
                                     <th>Options</th>
@@ -176,20 +262,27 @@ const Allquestions = () => {
                             <tbody>
                                 {loading ?
                                     <tr>
-                                        <td colSpan="9" className='tableloading'>
+                                        <td colSpan="10" className='tableloading'>
                                             <img src={img} alt="" />
                                         </td>
                                     </tr>
                                     :
                                     Data?.questions?.length === 0 ?
                                         <tr>
-                                            <td colSpan="9" className='tableloading'>
+                                            <td colSpan="10" className='tableloading'>
                                                 <p>No data available.</p>
                                             </td>
                                         </tr>
                                         :
                                         Data?.questions?.map((i, index) => (
                                             <tr key={index}>
+                                                <td>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedQuestions.includes(i._id)}
+                                                        onChange={() => handleSelectQuestion(i._id)}
+                                                    />
+                                                </td>
                                                 <td>#{index + 1}</td>
                                                 <td>
                                                     <span dangerouslySetInnerHTML={{ __html: truncateText(i?.title, 15) }} />

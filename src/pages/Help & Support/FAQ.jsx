@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import HOC from '../../components/HOC/HOC'
 import { deleteApi, getApi } from '../../Repository/Api';
 import endPoints from '../../Repository/apiConfig';
 
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 

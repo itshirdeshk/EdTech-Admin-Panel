@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import  { useCallback, useEffect, useState } from 'react'
 import endPoints from '../../Repository/apiConfig';
 import { getApi } from '../../Repository/Api';
 import img from '../../assest/loading1.gif'

@@ -13,8 +13,8 @@ const endPoints = {
         `admin/all/mockTest?page=${page}&limit=${limit}&name=${search ? search : ""}`,
     getAllTests: (page, limit, search) =>
         `admin/all/test?page=${page}&limit=${limit}&title=${search ? search : ""}`,
-    getallQuestions: (page, limit, search) =>
-        `admin/all/question?page=${page}&limit=${limit}&title=${search ? search : ""}`,
+    getallQuestions: (page, limit, search, testId) =>
+        `admin/all/question?page=${page}&limit=${limit}&title=${search ? search : ""}${testId ? `&testId=${testId}` : ""}`,
     getallResources: (page, limit, search) =>
         `admin/all/resource?page=${page}&limit=${limit}&title=${search ? search : ""}`,
     getallScores: (page, limit, search, userId) =>
@@ -122,6 +122,7 @@ const endPoints = {
         `admin/deleteBannerById/${id}`,
     deleteQuestion: (id) =>
         `admin/deleteQuestionById/${id}`,
+    deleteBulkQuestions: "admin/deleteBulkQuestions",
     deleteResources: (id) =>
         `admin/deleteResourceById/${id}`,
 

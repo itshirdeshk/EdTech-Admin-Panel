@@ -1,9 +1,9 @@
 /** @format */
 
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import { format, isToday, isYesterday } from 'date-fns';
+import { format } from 'date-fns';
 
 const ScrollToTop = () => {
     const { pathname } = useLocation();
