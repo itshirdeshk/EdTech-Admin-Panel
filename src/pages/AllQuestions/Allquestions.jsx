@@ -283,7 +283,7 @@ const Allquestions = () => {
                                                         onChange={() => handleSelectQuestion(i._id)}
                                                     />
                                                 </td>
-                                                <td>#{index + 1}</td>
+                                                <td>#{(pagination.page - 1) * pagination.limit + index + 1}</td>
                                                 <td>
                                                     <span dangerouslySetInnerHTML={{ __html: truncateText(i?.title, 15) }} />
                                                 </td>

@@ -165,7 +165,7 @@ const Tests = () => {
                                         :
                                         Data?.tests?.map((i, index) => (
                                             <tr key={index}>
-                                                <td>#{index + 1}</td>
+                                                <td>#{(pagination.page - 1) * pagination.limit + index + 1}</td>
                                                 <td>{i?.title}</td>
                                                 <td>{i?.mockTest?.name}</td>
                                                 <td>{i?.totalQuestions}</td>

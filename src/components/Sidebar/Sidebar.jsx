@@ -23,7 +23,7 @@ const Sidebar = () => {
         { name: "All Exams", icon: <CgNotes />, link: "/allexams" },
         { name: "All Sub Exams", icon: <CgNotes />, link: "/allsubexams" },
         { name: "All Test Series", icon: <CgNotes />, link: "/alltestseries" },
-        { name: "All Mock Testst", icon: <CgNotes />, link: "/allmocktests" },
+        { name: "All Mock Tests", icon: <CgNotes />, link: "/allmocktests" },
         { name: "All Tests", icon: <CgNotes />, link: "/alltests" },
         { name: "All Banners", icon: <CgNotes />, link: "/all-banners" },
         { name: "All Questions", icon: <CgNotes />, link: "/all-questions" },

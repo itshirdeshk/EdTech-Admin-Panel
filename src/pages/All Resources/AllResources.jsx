@@ -289,7 +289,7 @@ const AllResources = () => {
                                 ) : (
                                     Data?.resources?.map((i, index) => (
                                         <tr key={i._id}>
-                                            <td>#{index + 1}</td>
+                                            <td>#{(pagination.page - 1) * pagination.limit + index + 1}</td>
                                             <td>{i?.title}</td>
                                             <td>{i?.exam?.name}</td>
                                             <td>{i?.subExam?.name}</td>

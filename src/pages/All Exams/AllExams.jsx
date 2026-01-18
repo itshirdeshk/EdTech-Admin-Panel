@@ -166,7 +166,7 @@ const AllExams = () => {
                                         :
                                         Data?.exams?.map((i, index) => (
                                             <tr key={index}>
-                                                <td>#{index + 1}</td>
+                                                <td>#{(pagination.page - 1) * pagination.limit + index + 1}</td>
                                                 <td>{i?.name}</td>
                                                 <td><img src={i?.image} alt="" style={{ width: "100px", height: '50px' }} /></td>
                                                 <td>{i?.description}</td>

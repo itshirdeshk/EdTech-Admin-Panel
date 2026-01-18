@@ -109,7 +109,7 @@ const BottomDashboard = () => {
                                 ) :
                                     leaderboards?.leaderboard?.map((entry, index) => (
                                         <tr key={index}>
-                                            <td>#{index + 1}</td>
+                                            <td>#{(pagination.page - 1) * pagination.limit + index + 1}</td>
                                             <td>{entry?.rank}</td>
                                             <td>{entry.user?.name || "Unknown"}</td>
                                             <td>

@@ -203,7 +203,7 @@ const UsersLists = () => {
                                     ) :
                                         userData?.users?.map((user, index) => (
                                             <tr key={index}>
-                                                <td>#{index + 1}</td>
+                                                <td>#{(pagination.page - 1) * pagination.limit + index + 1}</td>
                                                 <td>{user?.name}</td>
                                                 <td>{user?.email || 'N/A'}</td>
                                                 <td>{user?.phone || 'N/A'}</td>
