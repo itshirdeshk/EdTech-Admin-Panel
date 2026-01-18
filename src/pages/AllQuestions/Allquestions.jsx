@@ -217,7 +217,7 @@ const Allquestions = () => {
                                     setPagination((prev) => ({ ...prev, page: 1 }));
                                     setSelectedQuestions([]);
                                 }}
-                                style={{ padding: '8px 12px', borderRadius: '5px', border: '1px solid #ccc' }}
+                                style={{ padding: '8px 12px', borderRadius: '5px', border: '1px solid #ccc', width: '200px' }}
                             >
                                 <option value="">All Tests</option>
                                 {testList?.tests?.map((test) => (
