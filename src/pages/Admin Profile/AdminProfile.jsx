@@ -1,7 +1,5 @@
-import React, { useRef, useState } from 'react';
+import { useState } from 'react';
 import HOC from '../../components/HOC/HOC';
-import { toast } from 'react-toastify';
-import img from '../../assest/user.webp';
 import { useNavigate } from 'react-router-dom';
 import { putApi } from '../../Repository/Api';  // Import postApi for the new API
 import endPoints from '../../Repository/apiConfig';
