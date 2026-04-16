@@ -104,20 +104,6 @@ const Login = () => {
                   {showPassword ? <FaEye color='#313131' size={25} /> : <FaEyeSlash color='#313131' size={25} />}
                 </div>
               </div>
-
-              <div className="options">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={() => setRememberMe(!rememberMe)}
-                  />
-                  Remember me
-                </label>
-                {/* <a href='/forgotpassword' className="forgot-password">
-                  Forgot Password?
-                </a> */}
-              </div>
             </form>
             <div className='login6'>
               {loading ?

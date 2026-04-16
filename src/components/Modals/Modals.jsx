@@ -943,8 +943,9 @@ const AddTests = (props) => {
     const [title, setTitle] = useState(data?.title || '');
     const [mocktestId, setMockTestId] = useState(data?.mockTest?._id || data?.mockTestId || '');
     const [duration, setDuration] = useState(data?.duration || null);
-    const [totalMarks, setTotalMarks] = useState(data?.totalMarks || null);
     const [isFree, setIsFree] = useState(data?.isFree || null);
+    const [positiveMarks, setPositiveMarks] = useState(data?.positiveMarks || '');
+    const [negativeMarks, setNegativeMarks] = useState(data?.negativeMarks || '');
     const [loading, setLoading] = useState(false);
     const [loading1, setLoading1] = useState(false);
 
@@ -978,6 +979,8 @@ const AddTests = (props) => {
             setMockTestId(data?.mockTest?._id || data?.mockTestId || '');
             setDuration(data?.duration || null);
             setIsFree(data?.isFree || null);
+            setPositiveMarks(data?.positiveMarks || '');
+            setNegativeMarks(data?.negativeMarks || '');
         } else if (!edit) {
             resetForm();
         }
@@ -988,11 +991,13 @@ const AddTests = (props) => {
         setMockTestId(null);
         setDuration(null);
         setIsFree(null);
+        setPositiveMarks('');
+        setNegativeMarks('');
     };
 
 
     const handleSubmit = async () => {
-        if (!title || !mocktestId || !duration || !isFree) {
+        if (!title || !mocktestId || !duration || !isFree || positiveMarks === '') {
             toast.error("Please provide all the fields!");
             return;
         }
@@ -1001,7 +1006,9 @@ const AddTests = (props) => {
             title: title,
             duration: duration,
             isFree: isFree,
-            mockTestId: mocktestId
+            mockTestId: mocktestId,
+            positiveMarks: parseFloat(positiveMarks),
+            negativeMarks: negativeMarks !== '' ? parseFloat(negativeMarks) : 0
         }
 
         await postApi(endPoints.addTest, payload, {
@@ -1020,7 +1027,9 @@ const AddTests = (props) => {
             title: title,
             duration: duration,
             isFree: isFree,
-            mockTestId: mocktestId
+            mockTestId: mocktestId,
+            positiveMarks: parseFloat(positiveMarks),
+            negativeMarks: negativeMarks !== '' ? parseFloat(negativeMarks) : 0
         }
 
         await putApi(endPoints.updateTest(id), payload, {
@@ -1071,15 +1080,6 @@ const AddTests = (props) => {
                                 onChange={(e) => setDuration(e.target.value)}
                             />
                         </div>
-                        {/* {edit && <div className="addcategory-container">
-                            <label htmlFor="">Total Marks</label>
-                            <input
-                                type="number"
-                                placeholder="Enter the total marks"
-                                value={totalMarks}
-                                onChange={(e) => setTotalMarks(e.target.value)}
-                            />
-                        </div>} */}
                         <div className="addcategory-container">
                             <label htmlFor="">Is Free</label>
                             <select
@@ -1091,6 +1091,26 @@ const AddTests = (props) => {
                                 <option value="false">No</option>
                             </select>
 
+                        </div>
+                        <div className="addcategory-container">
+                            <label htmlFor="">Positive Marks</label>
+                            <input
+                                type="number"
+                                step="0.1"
+                                placeholder="Enter positive marks"
+                                value={positiveMarks}
+                                onChange={(e) => setPositiveMarks(e.target.value)}
+                            />
+                        </div>
+                        <div className="addcategory-container">
+                            <label htmlFor="">Negative Marks</label>
+                            <input
+                                type="number"
+                                step="0.1"
+                                placeholder="Enter negative marks"
+                                value={negativeMarks}
+                                onChange={(e) => setNegativeMarks(e.target.value)}
+                            />
                         </div>
                         <div className="addcategory-container">
                             <label htmlFor="">Select Mock Test</label>

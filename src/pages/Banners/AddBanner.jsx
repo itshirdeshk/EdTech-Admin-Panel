@@ -53,11 +53,13 @@ const AddBanner = () => {
 
 
     const fetchTestseries = async () => {
-        await getApi(endPoints.getTestseriesbysubexamid(subExamId), {
-            setResponse: setTestSeriesOptions,
-            setLoading: setLoading2,
-            // errorMsg: "Failed to fetch categories!",
-        });
+        if (subExamId) {
+            await getApi(endPoints.getTestseriesbysubexamid(subExamId), {
+                setResponse: setTestSeriesOptions,
+                setLoading: setLoading2,
+                errorMsg: "Failed to fetch test series!",
+            });
+        }
     };
 
 
@@ -104,12 +106,37 @@ const AddBanner = () => {
 
 
     const handleSubmit = async () => {
+        // Validation for required fields
+        if (!bannertype) {
+            toast.error("Please select banner type!");
+            return;
+        }
+        if (!redirectmodel) {
+            toast.error("Please select redirect model!");
+            return;
+        }
+        if (!image) {
+            toast.error("Please upload banner image!");
+            return;
+        }
+        if (bannertype === 'test-series' && !subExamId) {
+            toast.error("Please select sub-exam for test series banner!");
+            return;
+        }
+        if (bannertype === 'test-series' && !redirectId) {
+            toast.error("Please select test series for redirect!");
+            return;
+        }
+        if (redirectmodel === 'TestSeries' && !redirectId) {
+            toast.error("Please select redirect test series!");
+            return;
+        }
 
         const fields = {
-            redirectId: redirectId,
+            redirectId: redirectId || undefined,
             redirectModel: redirectmodel,
-            subExamId: subExamId,
-            image: image,
+            subExamId: bannertype === 'test-series' ? subExamId : undefined,
+            image,
             type: bannertype
         };
 
@@ -180,8 +207,11 @@ const AddBanner = () => {
                     <div className='addservice-left'>
                         <div className='addsubcategory-left-div'>
                             <div className='addservice-left-div'>
-                                <label htmlFor="">Redirect Model</label>
-                                <select onChange={(e) => setRedirectModel(e.target.value)}
+                                <label htmlFor="">Redirect Model *</label>
+                                <select onChange={(e) => {
+                                    setRedirectModel(e.target.value);
+                                    setRedirectId(''); // Reset redirect ID when model changes
+                                }}
                                     value={redirectmodel}>
                                     <option value="">Select</option>
                                     <option value="TestSeries">Test Series</option>
@@ -189,8 +219,11 @@ const AddBanner = () => {
                                 </select>
                             </div>
                             <div className='addservice-left-div'>
-                                <label htmlFor="">Banner Type</label>
-                                <select onChange={(e) => setBannerType(e.target.value)}
+                                <label htmlFor="">Banner Type *</label>
+                                <select onChange={(e) => {
+                                    setBannerType(e.target.value);
+                                    setRedirectId(''); // Reset redirect when type changes
+                                }}
                                     value={bannertype}>
                                     <option value="">Select</option>
                                     <option value="test-series">Test Series</option>
@@ -199,11 +232,15 @@ const AddBanner = () => {
                                 </select>
                             </div>
                             <div className='addservice-left-div'>
-                                <label htmlFor="">Sub Exam</label>
+                                <label htmlFor="">{bannertype === 'test-series' ? 'Sub Exam *' : 'Sub Exam'}</label>
                                 <select
                                     name="exams"
                                     value={subExamId}
-                                    onChange={(e) => setSubExamId(e.target.value)}
+                                    onChange={(e) => {
+                                        setSubExamId(e.target.value);
+                                        setRedirectId(''); // Reset redirect ID when subexam changes
+                                    }}
+                                    disabled={bannertype !== 'test-series'}
                                 >
                                     <option value="">Select</option>
                                     {loading1 ?
@@ -225,15 +262,16 @@ const AddBanner = () => {
                                     name="testseries"
                                     value={redirectId}
                                     onChange={(e) => setRedirectId(e.target.value)}
+                                    disabled={!subExamId}
                                 >
                                     <option value="">Select</option>
                                     {loading2 ?
                                         <option value="">Loading...</option>
                                         :
-                                        testseriesOptions?.TestSeries?.length === 0 ?
+                                        !Array.isArray(testseriesOptions?.testSeries) || testseriesOptions?.testSeries?.length === 0 ?
                                             <option value="">No data</option>
                                             :
-                                            testseriesOptions?.TestSeries?.map((cat) => (
+                                            testseriesOptions?.testSeries?.map((cat) => (
                                                 <option key={cat._id} value={cat._id}>
                                                     {cat.name}
                                                 </option>
