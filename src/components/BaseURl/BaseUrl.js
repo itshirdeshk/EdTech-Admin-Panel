@@ -1,6 +1,4 @@
-export const BaseUrl = "https://testify-server-production-50a8.up.railway.app/api/";
-// export const BaseUrl = "https://testify-server-tau.vercel.app/api/";
-// export const BaseUrl = "http://localhost:8080/api/";
+export const BaseUrl = "https://testify-server-production-704a.up.railway.app/api/";
 
 export const getAuthHeaders = () => {
     const token = sessionStorage.getItem("token");
